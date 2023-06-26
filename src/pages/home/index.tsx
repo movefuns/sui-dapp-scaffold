@@ -5,6 +5,11 @@ import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
 import CloseIcon from '@mui/icons-material/Close';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import {Button, Card, CardActions, CardContent, FormControl, Stack} from "@mui/material";
+import Typography from "@mui/material/Typography";
+import {useTranslation} from "react-i18next";
 
 
 export default function Home() {
@@ -13,6 +18,7 @@ const [message, setMessage] = useState('');
 const [fetchMessage, setFetchMessage] = useState('');
 const [link, setLink] = useState('');
 const [alertFlag, setAlertFlag] = useState(false);
+    const { t } = useTranslation();
 
 async function setMsg() {
     setMessage("")
@@ -52,6 +58,8 @@ async function getMsg() {
 async function openNotification(msg:string) {
     setLink(msg);
     setAlertFlag(true);
+    console.log(11);
+    
 }
 
 useEffect(() => {
@@ -61,50 +69,47 @@ useEffect(() => {
 }, [])
 
 return (
-    <>
-        <div>
+    <div>
+        <Card sx={{ width: '100%', height: '100vh', borderRadius: 0 }}>
+            <CardContent>
+                <Stack spacing={2}>
+                    <TextField
+                        id="outlined-basic"
+                        onChange={(v: any) => {
+                            setMessage(v.target.value)
+                        }}
+                    />
+
+                </Stack>
+            </CardContent>
+            <CardActions>
+                <Button variant="contained" fullWidth onClick={setMsg}>{t("trans.set_message")}</Button>
+            </CardActions>
+            <h5>{t("trans.get_message")}: {fetchMessage}</h5>
+            <div>
             <Collapse in={alertFlag}>
                 <Alert
                     onClose={() => {setAlertFlag(true)}}
                     action={
                         <IconButton
-                        aria-label="close"
-                        color="inherit"
-                        size="small"
-                        onClick={() => {
-                            setAlertFlag(false);
-                        }}
+                            aria-label="close"
+                            color="inherit"
+                            size="small"
+                            onClick={() => {
+                                setAlertFlag(false);
+                            }}
                         >
-                <CloseIcon fontSize="inherit" />
-                </IconButton>}
-                sx={{ mb: 2 }}>
-                {link}
+                            <CloseIcon fontSize="inherit" />
+                        </IconButton>}
+                    sx={{ mb: 2 }}>
+                    {link}
                 </Alert>
             </Collapse>
         </div>
-        <div className="card">      
-            <div className="w-full bg-white">
-            <label className="text-l sm:text-xl px-4">Set Message:</label>
-            <div className="px-4">
-                <input
-                placeholder="Message"
-                className="text-input"
-                onChange={e => setMessage(e.target.value)}
-                value={message}
-                />
-            </div>
-            <label className="text-xs px-4 text-gray-400">Get Message: {fetchMessage}</label>
-            </div>   
-            <div className="flex justify-center py-2 px-4">
-            <button
-                className="btn-neutral"
-                onClick={setMsg}
-                >
-                Set Message
-            </button>
-            </div>
-        </div>
-    </>
+        </Card>
+        
+    </div>
+
   )
 }
 

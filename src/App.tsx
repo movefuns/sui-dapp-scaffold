@@ -1,25 +1,13 @@
 import React from 'react';
-import { 
-  BrowserRouter as Router, 
-  Route,
-  Routes
-} from 'react-router-dom';
-import { WalletKitProvider } from '@mysten/wallet-kit';
-import Header from './common/header';
+import MiniDrawer from './pages/header';
 import Home from './pages/home';
+import { WalletKitProvider } from '@mysten/wallet-kit';
 
 export default function App() {
   return (
-    
-    <div>
-      <WalletKitProvider>
-        <Router>
-            <Header/>
-            <Routes>
-              <Route path='/' element={ <Home /> }></Route>
-            </Routes>
-          </Router>
-      </WalletKitProvider>
-    </div>
+    <WalletKitProvider>
+      <MiniDrawer />
+      <Home />
+    </WalletKitProvider>
   )
 }
